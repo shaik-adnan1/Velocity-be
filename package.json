@@ -1,0 +1,21 @@
+{
+  "name": "velocity-be",
+  "version": "1.0.0",
+  "description": "A car polling platform that connects drivers and passengers to share rides, reduce travel costs and minimize environmental impact",
+  "main": "server.js",
+  "scripts": {
+    "watch": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "VeloCity",
+    "carPolling"
+  ],
+  "author": "adnan",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "nodemon": "^3.1.6"
+  }
+}
