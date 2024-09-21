@@ -12,8 +12,8 @@ if (process.env.NODE_ENV === "development") {
 
 // Basic Routes setup
 
-app.use("/api/v1/users");
-app.use("/api/v1/login");
-app.use("/api/v1/riders");
+// app.use("/api/v1/users");
+// app.use("/api/v1/login");
+// app.use("/api/v1/riders");
 
 module.exports = app;
