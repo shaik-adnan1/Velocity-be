@@ -7,7 +7,8 @@ exports.createUser = async (req, res) => {
     const createUserResponse = await createUserService(userDetails);
     return res.json(createUserResponse);
   } catch (error) {
-    console.log(`error getting user details -- Error: -- ${error}`);
-    return res.status(500).json(error);
+    console.log(`error while creating user -- Error: -- ${error}`);
+    console.log(error);
+    return res.status(400).json(error);
   }
 };

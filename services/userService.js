@@ -1,6 +1,9 @@
-exports.createUserService = async (createUserDetails) => {
+const User = require("../models/userModel");
+const { createUserValidation } = require("../services/validationService");
+
+exports.createUserService = async (userDetails) => {
   // console.log("reqbody", req);
-  const { username, mobile, fistName, lastName } = createUserDetails;
+  const { username, mobile, fistName, lastName } = userDetails;
 
   if (!username || username === "") {
     throw {
@@ -41,6 +44,11 @@ exports.createUserService = async (createUserDetails) => {
       },
     };
   }
+
+  const createValidation = createUserValidation(userDetails);
+  console.log(createValidation);
+
+  const newUser = await User.create(userDetails);
 
   return {
     status: "Success",
