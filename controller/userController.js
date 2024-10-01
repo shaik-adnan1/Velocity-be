@@ -1,4 +1,5 @@
 const { createUserService } = require("../services/userService");
+const { mongooseErrorHandler } = require("../utils/mongooseErrorHandler");
 
 exports.createUser = async (req, res) => {
   const userDetails = req.body;
