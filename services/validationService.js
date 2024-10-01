@@ -4,13 +4,9 @@ exports.createUserValidation = (userDetails) => {
   const requiredFields = {
     username: "Please enter a correct username",
     password: "Please enter a correct password",
-    confirmPassword: "Please enter confirmation password",
     mobile: "Please enter a correct mobile number",
-    firstName: "Please enter a correct first name",
+    fistName: "Please enter a correct first name",
     lastName: "Please enter a correct last name",
-    emergencyContact: "Please enter an emergency contact number",
-    dob: "Please enter a dob",
-    gender: "Please enter a gender",
   };
 
   for (const [field, errorMessage] of Object.entries(requiredFields)) {

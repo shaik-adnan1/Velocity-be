@@ -52,4 +52,4 @@ exports.createUserService = async (userDetails) => {
     //   details: normalizedError.details,
     // };
   }
-};
+}
