@@ -24,16 +24,6 @@ const userSchema = new mongoose.Schema({
       "Password must be between 8 and 15 characters long, and can only contain letters, numbers, and underscores (_)",
     ],
   },
-  confirmPassword: {
-    type: String,
-    required: [true, "User must have a conforming password"],
-    minlength: [8, "Password must be at least 8 characters long"],
-    maxlength: [15, "Password cannot exceed 15 characters"],
-    match: [
-      /^[a-zA-Z\d_]{8,15}$/,
-      "Password must be between 8 and 15 characters long, and can only contain letters, numbers, and underscores (_)",
-    ],
-  },
   mobile: {
     type: Number,
     required: [true, `User must have a username`],
@@ -49,21 +39,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, `User must have a lastName`],
     match: [/^[a-zA-Z]+$/, "Last name must contain only letters"],
-  },
-  emergencyContact: {
-    type: String,
-    required: [true, `User must have a EmergencyContact`],
-    unique: true,
-  },
-  dob: {
-    type: Date,
-    required: [true, `User must enter a DOB`],
-    required: true,
-  },
-  gender: {
-    type: String,
-    enum: ["Male", "Female", "Other"],
-    required: true,
   },
 });
 

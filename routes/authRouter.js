@@ -6,6 +6,7 @@ const userDetailsController = require("../controller/userController");
 const router = express.Router();
 
 router.route("/otp").post(otpController.sendOtp);
+router.route("/otp/verify").post(otpController.verifyOtp);
 
 router.route("/createUser").post(userDetailsController.createUser);
 
