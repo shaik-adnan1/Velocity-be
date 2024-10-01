@@ -1,63 +1,36 @@
 const User = require("../models/userModel");
 const { createUserValidation } = require("../services/validationService");
+const { mongooseErrorHandler } = require("../utils/mongooseErrorHandler");
 
 exports.createUserService = async (userDetails) => {
   // console.log("reqbody", req);
-  const { username, mobile, fistName, lastName } = userDetails;
+  // const { username, mobile, fistName, lastName } = userDetails;
+  try {
+    const validationErrors = createUserValidation(userDetails);
+    if (validationErrors.length > 0) {
+      return {
+        status: "Failure",
+        message: "Validation failed",
+        details: validationErrors, // Return all validation errors at once
+      };
+    }
 
-  if (!username || username === "") {
-    throw {
-      status: "Failure",
-      message: "Please enter a correct username",
+    const newUser = await User.create(userDetails);
+    console.log(`Successfully created user ${newUser.username}`);
+
+    return {
+      status: "Success",
+      message: "Received user details",
       details: {
-        message: "Incorrect username",
+        newUser,
       },
     };
-  }
-
-  if (!mobile || mobile === "") {
-    throw {
+  } catch (error) {
+    const normalizedError = mongooseErrorHandler(error);
+    return {
       status: "Failure",
-      message: "Please enter a correct mobile",
-      details: {
-        message: "Incorrect mobile",
-      },
+      message: normalizedError.message,
+      details: normalizedError.details,
     };
   }
-
-  if (!fistName || fistName === "") {
-    throw {
-      status: "Failure",
-      message: "Please enter a correct fistName",
-      details: {
-        message: "Incorrect fistName",
-      },
-    };
-  }
-
-  if (!lastName || lastName === "") {
-    throw {
-      status: "Failure",
-      message: "Please enter a correct lastName",
-      details: {
-        message: "Incorrect lastName",
-      },
-    };
-  }
-
-  const createValidation = createUserValidation(userDetails);
-  console.log(createValidation);
-
-  const newUser = await User.create(userDetails);
-
-  return {
-    status: "Success",
-    message: "Received user details",
-    details: {
-      username,
-      mobile,
-      fistName,
-      lastName,
-    },
-  };
 };
