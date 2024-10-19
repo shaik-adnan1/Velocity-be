@@ -6,7 +6,6 @@ const {
 } = require("../utils/customResponse.js");
 const constants = require("../constants/constants.js");
 
-// exports.test = async (req, res) => {
 //   const { number } = req.body;
 //   try {
 //     client.verify.v2
