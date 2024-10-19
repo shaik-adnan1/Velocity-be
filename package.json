@@ -1,4 +1,4 @@
- origin {
+  {
   "name": "velocity-be",
   "version": "1.0.0",
   "description": "A car polling platform that connects drivers and passengers to share rides, reduce travel costs and minimize environmental impact",
