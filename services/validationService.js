@@ -4,13 +4,9 @@ exports.createUserValidation = (userDetails) => {
   const requiredFields = {
     username: "Please enter a correct username",
     password: "Please enter a correct password",
-    confirmPassword: "Please enter confirmation password",
     mobile: "Please enter a correct mobile number",
-    firstName: "Please enter a correct first name",
+    fistName: "Please enter a correct first name",
     lastName: "Please enter a correct last name",
-    emergencyContact: "Please enter an emergency contact number",
-    dob: "Please enter a dob",
-    gender: "Please enter a gender",
   };
 
   for (const [field, errorMessage] of Object.entries(requiredFields)) {
@@ -22,10 +18,21 @@ exports.createUserValidation = (userDetails) => {
     }
   }
 
+  const passwordRegex = /^[a-zA-Z\d_!@#$%^&*]{8,15}$/;
+
+  console.log("userDetails.password", userDetails.password);
+  if (!passwordRegex.test(userDetails.password)) {
+    validationErrors.push({
+      field: "password",
+      message:
+        "Password must be between 8 and 15 characters long, and can only contain letters, numbers, underscores (_), and special characters (!@#$%^&*)",
+    });
+  }
+
   if (userDetails.password !== userDetails.confirmPassword) {
     validationErrors.push({
-      field: userDetails.confirmPassword,
-      message: "Passwords does not match in confirm password",
+      field: "confirmPassword",
+      message: "Passwords do not match in confirm password",
     });
   }
 

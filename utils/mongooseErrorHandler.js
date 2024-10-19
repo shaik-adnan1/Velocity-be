@@ -2,14 +2,20 @@ const constants = require("../constants/constants");
 const { customResponse } = require("../utils/customResponse");
 
 const mongooseErrorHandler = (error) => {
+  // Log unexpected error and return custom error response
+  console.log("Error message:", error.message || error);
+
   if (error.name === "ValidationError") {
     const errors = Object.keys(error.errors).map((key) => ({
       field: key,
       message: error.errors[key].message,
     }));
 
+    console.log("errors", error);
+
     return customResponse(
       constants.VALIDATION_ERROR,
+      constants.FAILURE_STATUS,
       "Validation failed",
       errors
     );
@@ -24,6 +30,7 @@ const mongooseErrorHandler = (error) => {
     const field = Object.keys(error.keyValue)[0];
     return customResponse(
       constants.DUPLICATE_KEY_ERROR,
+      constants.FAILURE_STATUS,
       `Duplicate value for ${field}`,
       {
         field,
@@ -40,10 +47,9 @@ const mongooseErrorHandler = (error) => {
     // };
   }
 
-  console.log("error.message", error.message);
-
   return customResponse(
     constants.SOMETHING_WENT_WRONG,
+    constants.FAILURE_STATUS,
     "An unexpected error occurred",
     error.message || "Unknown error"
   );
