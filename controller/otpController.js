@@ -54,6 +54,7 @@ exports.verifyOtp = async (req, res) => {
     return res.status(200).json(
       successResponse({
         status: verificationCheck.status,
+        to: verificationCheck.to,
         message: "Verified Successfully",
       })
     );
