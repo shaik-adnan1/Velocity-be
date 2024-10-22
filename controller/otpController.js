@@ -6,7 +6,6 @@ const {
 } = require("../utils/customResponse.js");
 const constants = require("../constants/constants.js");
 
-
 exports.sendOtp = async (req, res) => {
   const { number } = req.body;
   if (!number || !/^\+\d{1,15}$/.test(number)) {
@@ -54,6 +53,7 @@ exports.verifyOtp = async (req, res) => {
     return res.status(200).json(
       successResponse({
         status: verificationCheck.status,
+        to: verificationCheck.to,
         message: "Verified Successfully",
       })
     );
