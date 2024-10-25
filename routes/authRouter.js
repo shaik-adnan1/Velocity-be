@@ -10,6 +10,11 @@ router.route("/otp").post(otpController.sendOtp);
 // router.route("/test/verify").post(otpController.testVerify);
 router.route("/otp/verify").post(otpController.verifyOtp);
 
-router.route("/createUser").post(userDetailsController.createUser);
+// validate if provided number exists in DB? returns the user data : creates a new user in DB.
+router.route("/validateNumber").post(userDetailsController.validateNumber);
+
+router
+  .route("/createUserProfile")
+  .post(userDetailsController.createUserProfile);
 
 module.exports = router;

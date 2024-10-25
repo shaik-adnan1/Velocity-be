@@ -1,19 +1,29 @@
 const bcrypt = require("bcryptjs");
 
-const User = require("../models/userModel");
+const { User } = require("../models/userModel");
 const constants = require("../constants/constants");
-const { createUserValidation } = require("../services/validationService");
+const {
+  createUserProfileValidation,
+} = require("../services/validationService");
 const { mongooseErrorHandler } = require("../utils/mongooseErrorHandler");
 const { successResponse, customResponse } = require("../utils/customResponse");
 
-exports.createUserService = async (userDetails) => {
-  // console.log("reqbody", req);
-  // const { username, mobile, fistName, lastName } = userDetails;
+exports.createUserProfileService = async (userDetails) => {
+  const { mobile } = userDetails;
+
+  console.log("user details at 24", userDetails);
+
+  if (!mobile) {
+    return res
+      .status(400)
+      .json({ code: "0001", message: "Mobile number is required" });
+  }
 
   const SALT_ROUNDS = 10;
 
   try {
-    const validationErrors = createUserValidation(userDetails);
+    // validating user details if received, satisfies the requirements to create a profile
+    const validationErrors = createUserProfileValidation(userDetails);
     if (validationErrors.length > 0) {
       return customResponse(
         constants.VALIDATION_ERROR,
@@ -23,18 +33,31 @@ exports.createUserService = async (userDetails) => {
       );
     }
 
+    // hashing the password
     const hashedPassword = await bcrypt.hash(userDetails.password, SALT_ROUNDS);
     userDetails.password = hashedPassword;
 
     // not storing confirm password into DB
     delete userDetails.confirmPassword;
 
-    const newUser = await User.create(userDetails);
+    // Need to update this to the update function into database!!!
+    // if any value for the userExists
 
-    console.log(`Successfully created user ${newUser.username}`);
+    // Find the user by mobile number and update with the provided details
+    const updatedUser = await User.findOneAndUpdate(
+      { mobile },
+      { $set: userDetails },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    console.log(`Successfully created user profile ${updatedUser}`);
 
     return successResponse({
-      newUser,
+      updatedUser,
     });
   } catch (error) {
     const normalizedError = mongooseErrorHandler(error);
@@ -44,7 +67,7 @@ exports.createUserService = async (userDetails) => {
       normalizedError.message,
       normalizedError.details
     );
-    
+
     // {
     //   code: constants.VALIDATION_ERROR,
     //   status: "Failure",
@@ -52,4 +75,14 @@ exports.createUserService = async (userDetails) => {
     //   details: normalizedError.details,
     // };
   }
-}
+};
+
+exports.createUserService = async (mobile) => {
+  console.log("mobile", mobile);
+
+  // Need to update this to the update function into database!!! (Tentative)
+  const newUser = new User({ mobile });
+  await newUser.save();
+  console.log("newUser", newUser);
+  return newUser;
+};
