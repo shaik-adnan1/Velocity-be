@@ -2,8 +2,9 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
-app.use(cors());
 const authRouter = require("./routes/authRouter");
+const userRouter = require("./routes/userRouter");
+app.use(cors());
 
 // json parsing middleware
 app.use(express.json());
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV === "development") {
 // Basic Routes setup
 
 app.use("/api/v1/signup", authRouter);
+app.use("/api/v1/getUserDetails", userRouter);
 // app.use("/api/v1/login");
 // app.use("/api/v1/riders");
 

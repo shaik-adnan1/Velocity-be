@@ -1,11 +1,11 @@
-exports.createUserValidation = (userDetails) => {
+exports.createUserProfileValidation = (userDetails) => {
   let validationErrors = [];
 
   const requiredFields = {
     username: "Please enter a correct username",
     password: "Please enter a correct password",
     mobile: "Please enter a correct mobile number",
-    fistName: "Please enter a correct first name",
+    firstName: "Please enter a correct first name",
     lastName: "Please enter a correct last name",
   };
 
